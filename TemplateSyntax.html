@@ -1,0 +1,106 @@
+<html>
+	<body>
+		<div id="template-test">
+			Message: {{ message.split('').reverse().join('') }}
+			<span>Message: {{ message }}</span>
+
+		</div>
+		<div id="counter">
+			<div v-once v-bind:id="counter">aa</div>
+			<a v-bind:href="counter">...</a>
+			<a :href="counter">.....</a>
+
+			<button v-on:click="counterClick">aaaa</button>
+			<span v-once>Counter: {{ counter + 5 }}</span>
+		</div>
+		<div id="example1" class="demo">
+			<p>Using mustaches: {{ rawHtml }}</p>
+			<p>Using v-html directive: <span v-html="rawHtml"></span></p>
+		</div>
+
+		<div id="button-disabled">
+			<button v-bind:disabled="isButtonDisabled">Button</button>
+			<p v-if="isButtonDisabled">Now you see me</p>
+		</div>
+
+		<div id="dynamic-test">
+			<button v-on:[eventname]="consoleTest">test</button>
+			<button @click="consoleTest">@click</button>
+			<button @[eventname]="consoleTest">@[]</button>
+			<button v-on:click="consoleTest">aaaa</button>
+		</div>
+
+		<script src="https://unpkg.com/vue@next"></script>
+	</body>
+	<script>
+		const DynamicTest = {
+			data() {
+				return {
+					eventname: "click"
+				}
+			},
+			methods: {
+				consoleTest(){
+					console.log('test')
+				}
+			}
+		}
+
+		Vue.createApp(DynamicTest).mount('#dynamic-test')
+
+		const ButtonDisabled = {
+			data() {
+				return {
+					isButtonDisabled: true
+				}
+			}
+		}
+
+		Vue.createApp(ButtonDisabled).mount('#button-disabled')
+
+
+		const TemplateTest = {
+			data() {
+				return {
+					message: 'yaho'
+				}
+			}
+		}
+
+		Vue.createApp(TemplateTest).mount('#template-test')
+
+		const Counter = {
+			data() {
+				return {
+					counter: 0
+				}
+			},
+			created() {
+				console.log('counter is: ' + this.counter)
+			},
+			mounted() {
+				setInterval(()=>{
+					this.counter++
+				}, 1000)
+			},
+			methods: {
+				counterClick(){
+					console.log('aaaaa')
+				}
+			}
+		}
+
+		Vue.createApp(Counter).mount('#counter')
+
+		const RenderHtmlApp = {
+			data() {
+				return {
+					rawHtml: '<span style="color: red">This should be red.</span>'
+				}
+			}
+		}
+
+		Vue.createApp(RenderHtmlApp).mount('#example1')
+
+	</script>
+</html>
